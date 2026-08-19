@@ -1,26 +1,50 @@
-# Publicar B2B Data Extractor en la web
+# Publicar B2B Directory Intelligence en Streamlit Community Cloud
 
-## Opción recomendada: Streamlit Community Cloud
+## 1. Subir a GitHub
 
-1. Crear un repositorio en GitHub.
-2. Subir el contenido de esta carpeta a la raíz del repositorio.
-3. Entrar a Streamlit Community Cloud.
-4. Elegir **Create app**.
-5. Seleccionar el repositorio, rama y `app.py` como entrypoint.
-6. Publicar.
+En la raíz del repositorio deben verse, como mínimo:
 
-`requirements.txt` contiene las dependencias necesarias y `.streamlit/config.toml` define los temas visuales.
-
-## Hosting propio / contenedor
-
-También puede desplegarse en un servidor Python ejecutando:
-
-```bash
-streamlit run app.py --server.address=0.0.0.0 --server.port=8501
+```text
+app.py
+requirements.txt
+src/
+.streamlit/
 ```
 
-Para uso corporativo se recomienda colocar la app detrás de HTTPS y autenticación (SSO, proxy o plataforma de hosting con acceso privado).
+No subas solamente los archivos internos de `src`: la carpeta `src` debe conservarse.
 
-## Nota sobre scraping
+## 2. Crear / actualizar la aplicación
 
-En hosting cloud las solicitudes salen desde la IP del servidor. Si una fuente limita datacenters o automatizaciones, puede ser necesario usar infraestructura propia o ajustar la estrategia de extracción.
+En Streamlit Community Cloud seleccioná:
+
+- Repository: tu repositorio
+- Branch: `main`
+- Main file path: `app.py`
+
+Si ya tenés la app publicada, alcanza con reemplazar los archivos del repositorio y hacer commit. Streamlit normalmente vuelve a desplegar con el último commit.
+
+## 3. Personalizar la landing
+
+Editá `src/settings.py` antes de publicar:
+
+```python
+BRAND_NAME = "Tu marca"
+PRODUCT_NAME = "Directory Intelligence"
+CONTACT_EMAIL = "ventas@tuempresa.com"
+```
+
+## 4. Probar un directorio nuevo
+
+1. Entrá a la landing.
+2. Tocá **Abrir plataforma**.
+3. Pegá la URL exacta de la categoría o segmento.
+4. Tocá **Analizar compatibilidad**.
+5. Empezá con 10–25 empresas.
+6. Revisá la cobertura.
+7. Si está bien, elegí **Todas**.
+
+Si el motor no detecta las fichas, abrí **Compatibilidad avanzada** y agregá el selector CSS del enlace/tarjeta de empresa. El selector de siguiente página es opcional.
+
+## Nota técnica
+
+No existe un scraper que pueda garantizar compatibilidad automática con literalmente cualquier web. Los sitios con login, CAPTCHA, protección anti-bot o contenido exclusivamente JavaScript pueden requerir una integración/adaptador específico. El motor universal está orientado a directorios públicos HTML y conserva el adaptador optimizado del directorio original.
